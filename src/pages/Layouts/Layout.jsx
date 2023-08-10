@@ -1,19 +1,18 @@
-import React from 'react'
-import { Outlet } from 'react-router'
+import React from "react";
+import { Outlet } from "react-router";
+import Navbar from "../../components/Navbar";
+
 const Layout = () => {
   return (
     <div>
-      <nav>
-        <ul>
-            <li>Home</li>
-            <li>Create</li>
-        </ul>
-      </nav>
-
-     {/* dynamic route changes content */}
-     <Outlet/>
+      
+      <Navbar/>
+      {/* dynamic route changes content */}
+     <div className="max-w-6xl mx-auto p-3">
+     <Outlet />
+     </div>
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
