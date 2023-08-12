@@ -1,0 +1,34 @@
+{
+    "books" : [
+        {
+            "id":1,
+            "title":"日本語　N1　",
+            "description": "みんなの日本語",
+            "categories": ["言葉","合意","文法","読解"]
+        },
+        {
+            "id":2,
+            "title":"日本語　N2",
+            "description":"耳から覚える",
+            "categories":["言葉","合意","文法","listening"]
+        },
+        {
+            "id":3,
+            "title":"日本語　N3",
+            "description":"新完全マスター",
+            "categories":["言葉","合意","文法","listening"]
+        },
+        {
+            "id":4,
+            "title":"日本語　N4",
+            "description":"みんなの日本語",
+            "categories":["言葉","合意","文法","読解"]
+        },
+        {
+            "id":5,
+            "title":"日本語　N5",
+            "description":"みんなの日本語",
+            "categories":["言葉","合意","文法","listening"]
+        }
+    ]
+}
