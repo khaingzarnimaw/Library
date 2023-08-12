@@ -1,6 +1,7 @@
 import React from "react";
 import memory from "../assets/img/memory.jpeg";
 import useFetch from "../hooks/useFetch";
+import { Link } from "react-router-dom";
 
 const BookList = () => {
   let { data : books , loading, error } = useFetch("http://localhost:3001/books");
@@ -16,7 +17,8 @@ const BookList = () => {
       { !!books && (
            <div className="grid md:grid-cols-4 grid-cols-2 gap-4 my-3">
           {books.map((b) => (
-            <div className="p-4 border border-1" key={b.id}>
+           <Link to={`/books/${b.id}`}  key={b.id}>
+            <div className="p-4 border border-1">
               <img src={memory} alt="" className="mx-auto" />
               <div className="text-center space-y-2 mt-3">
                 <h1>{b.title}</h1>
@@ -31,6 +33,7 @@ const BookList = () => {
                 </div>
               </div>
             </div>
+           </Link>
           ))}
         </div>
       )}
