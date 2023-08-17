@@ -5,9 +5,9 @@
       "title": "日本語　N1　",
       "description": "みんなの日本語",
       "categories": [
-        "言葉",
+        "React",
         "合意",
-        "文法",
+        "dokkai",
         "読解"
       ]
     },
@@ -16,7 +16,7 @@
       "title": "日本語　N2",
       "description": "耳から覚える",
       "categories": [
-        "言葉",
+        "Javascript",
         "合意",
         "文法",
         "listening"

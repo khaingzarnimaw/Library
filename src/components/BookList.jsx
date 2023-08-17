@@ -1,10 +1,17 @@
 import React from "react";
 import memory from "../assets/img/memory.jpeg";
 import useFetch from "../hooks/useFetch";
-import { Link } from "react-router-dom";
+import { Link ,useLocation } from "react-router-dom";
 
 const BookList = () => {
-  let { data : books , loading, error } = useFetch("http://localhost:3000/books","GET");
+
+let location = useLocation();
+let params = new URLSearchParams(location.search);
+// console.log(params.get('search'));
+let search = params.get('search')
+//  let search = 'React';
+ let { data : books , loading, error } = useFetch(`http://localhost:3000/books${search ? `?q=${search}`:''}`,"GET");
+
 
   if (error) {
     return <p>{error}</p>;

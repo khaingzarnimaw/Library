@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Meimg from "/src/assets/img/Me.png"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
+  let[search,setSearch] = useState('')
+  let navigate = useNavigate();//redirect 
+
+  let handleSearch = (e) =>{
+    //  console.log(search);//search မှာရေးကြည့်တခုခု
+    navigate('/?search='+ search)
+  }
   return (
     <nav className="border border-b-1">
         <ul className="flex justify-between items-center p-3 max-w-6xl mx-auto">
@@ -22,8 +29,12 @@ const Navbar = () => {
               />
             </svg>
 
-            <input type="text" placeholder=" search books..." className="outline-none" />
+            <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder=" search books..." className="outline-none" />
           </li>
+          <button onClick={handleSearch} className="md:text-white md: bg-primary md:px-3 md:py-1 md:rounded-2xl md:flex md:items-center md: gap-1">
+            
+           <span className="hidden md:block">Search</span>
+            </button>
           <Link to="/" className="flex justify-center gap-3 md:-ml-32 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
