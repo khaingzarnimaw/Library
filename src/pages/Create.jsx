@@ -14,6 +14,12 @@ const Create = () => {
  let navigate = useNavigate();
   // +button 
   let addCategory = (e)=>{
+    //နာမည်တူတွေထည့်မရအောင်လုပ်နည်း
+    if(newCategory && categories.includes(newCategory)){
+      setNewCategory('')
+      return;
+    }
+
     // console.log(newCategory);
     setCategories(prev => [newCategory,...prev])
     setNewCategory('')// clear 

@@ -45,6 +45,7 @@ let search = params.get('search')
           ))}
         </div>
       )}
+      { books && !books.length && ( <p className="text-center text-xl text-gray-500">No Search Results Found</p>)}
     </div>
   );
 };

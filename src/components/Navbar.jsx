@@ -29,12 +29,12 @@ const Navbar = () => {
               />
             </svg>
 
-            <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder=" search books..." className="outline-none" />
+          <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder=" search books..." className="outline-none" />
+          <button onClick={handleSearch} className="text-white  bg-primary px-3 py-1 rounded-2xl flex items-center  gap-1 ">
+             <span className=" md:block ">Search</span>
+          </button>
           </li>
-          <button onClick={handleSearch} className="md:text-white md: bg-primary md:px-3 md:py-1 md:rounded-2xl md:flex md:items-center md: gap-1">
-            
-           <span className="hidden md:block">Search</span>
-            </button>
+         
           <Link to="/" className="flex justify-center gap-3 md:-ml-32 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
