@@ -1,39 +1,64 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
-function useFetch(url, _options) {
+function useFetch(url , method = "Get") {//63
   let [data, setData] = useState(null);
+  let [postData,setPostData]= useState(null);//
   let [loading, setLoading] = useState(false); 
   let [error, setError] = useState(null);
 //   let options = useRef(_options).current;
 
   useEffect(() => {
     // console.log(options);
-
     let abortController = new AbortController();
     let signal = abortController.signal;
 
+    let options ={
+      signal,
+      method
+    };
     setLoading(true);
-    fetch(url, { signal })
-      .then((res) => {
+
+    let fetchData = () => {//ပြင်
+      // fetch(url, { signal,method })
+      fetch(url, options)//get method နဲ့သွားနေတာပါ//post method ၀င်လာ
+      .then(res => {
         if (!res.ok) {
           throw Error("something went wrong");
         }
         return res.json();
       })
-      .then((data) => {
+      .then(data => {
         setData(data);
         setError(null);
         setLoading(false);
       })
-      .catch((e) => {
+      .catch(e => {
         setError(e.message);
       });
-      //cleanup function
+    }
+
+    if(method === "POST" && postData){
+      // console.log(postData);//data get
+      options = {
+        ...options,
+       headers: {
+        "Content-Type" : "application/json",
+       },
+       body : JSON.stringify(postData)
+      }
+      fetchData()
+    }
+    if(method === "GET"){
+      fetchData();
+    }
+
+
+     //cleanup function
     return () => {
       abortController.abort();
     };
-  }, [url]);
+  }, [url, postData]);
 
-  return { data, loading, error };
+  return { setPostData ,data, loading, error };
 }
 export default useFetch;

@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import useFetch from "../hooks/useFetch";//63
+import { useNavigate } from "react-router-dom";
+
 
 const Create = () => {
   let[title,setTitle] = useState('')
@@ -6,21 +9,43 @@ const Create = () => {
   let[newCategory,setNewCategory] = useState('')
   let[categories,setCategories] = useState([])
 
+  let {setPostData, data: book } = useFetch('http://localhost:3000/books',"POST")//63
+
+ let navigate = useNavigate();
   // +button 
   let addCategory = (e)=>{
     // console.log(newCategory);
     setCategories(prev => [newCategory,...prev])
     setNewCategory('')// clear 
   }
+  //onSubmit with addbook//create button click
+
+  let addBook = (e)=>{
+    e.preventDefault();
+    let data = {
+      title,
+      description,
+      categories
+    }
+   setPostData(data);//console.log(data) 
+  }
+  
+  useEffect (()=>{
+    // console.log(book)//စာအုပ် data သာ တကယ်ရှိရင် navigate လုပ်ပါ
+    if(book){
+      navigate('/')
+    }
+  },[book])
+
   return (
-    <form className="w-full max-w-lg mx-auto mt-5">
+    <form className="w-full max-w-lg mx-auto mt-5" onSubmit={addBook} >
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full px-3">
           <label
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
            htmlFor="grid-password"
           >
-            Book Title {title}
+            Book Title
           </label>
           <input value={title} onChange={e=> setTitle(e.target.value)}
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -36,7 +61,7 @@ const Create = () => {
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
            htmlFor="grid-password"
           >
-            Book Description{description}
+            Book Description
           </label>
           <textarea value={description} onChange={e => setDescription(e.target.value)}
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -55,7 +80,7 @@ const Create = () => {
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
            htmlFor="grid-password"
           >
-            Categories{newCategory}
+            Categories
           </label>
           <div className="flex items-center space-x-2">
             <input value={newCategory} onChange={e=>setNewCategory(e.target.value)}

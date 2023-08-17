@@ -9,7 +9,7 @@ const BookDetail = () => {
 
 
 //fetch data
-let { data:book , loading, error} = useFetch(`http://localhost:3001/books/${id}`)
+let { data:book , loading, error} = useFetch(`http://localhost:3000/books/${id}`,"GET")
 
   return (
    <>

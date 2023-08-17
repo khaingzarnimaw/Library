@@ -4,11 +4,12 @@ import useFetch from "../hooks/useFetch";
 import { Link } from "react-router-dom";
 
 const BookList = () => {
-  let { data : books , loading, error } = useFetch("http://localhost:3001/books");
+  let { data : books , loading, error } = useFetch("http://localhost:3000/books","GET");
 
   if (error) {
     return <p>{error}</p>;
   }
+
   return (
     <div>
         {loading && <p>loading ...</p>}
