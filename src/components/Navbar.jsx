@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Meimg from "/src/assets/img/Me.png"
 import { Link, useNavigate } from 'react-router-dom'
+import { ThemeContext } from '../contexts/ThemeContext'
 
 const Navbar = () => {
   let[search,setSearch] = useState('')
@@ -10,8 +11,12 @@ const Navbar = () => {
     //  console.log(search);//search မှာရေးကြည့်တခုခု
     navigate('/?search='+ search)
   }
+
+  let {theme} = useContext(ThemeContext)
+  // console.log(theme);
+  
   return (
-    <nav className="border border-b-1">
+    <nav className={`border border-b-1 ${theme === 'dark'? 'bg-blue-200' :' bg-yellow-200'}`}>
         <ul className="flex justify-between items-center p-3 max-w-6xl mx-auto">
           <li className="flex items-center gap-3">
             <svg
