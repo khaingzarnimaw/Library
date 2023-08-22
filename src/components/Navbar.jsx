@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, {  useState } from 'react'
 import Meimg from "/src/assets/img/Me.png"
 import { Link, useNavigate } from 'react-router-dom'
-import { ThemeContext } from '../contexts/ThemeContext'
-
+// import { ThemeContext } from '../contexts/ThemeContext'//68
+import useTheme from '../hooks/useTheme' ;
 const Navbar = () => {
   let[search,setSearch] = useState('')
   let navigate = useNavigate();//redirect 
@@ -12,7 +12,8 @@ const Navbar = () => {
     navigate('/?search='+ search)
   }
 
-  let {theme} = useContext(ThemeContext)
+  // let {theme} = useContext(ThemeContext)
+  let {theme} = useTheme();
   // console.log(theme);
   
   return (

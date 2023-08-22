@@ -54,30 +54,9 @@
         "文法",
         "listening"
       ]
-    },
-    {
-      "title": "hello",
-      "description": "book ",
-      "categories": [
-        "try best"
-      ],
-      "id": 6
-    },
-    {
-      "title": "keke",
-      "description": "kekkekek",
-      "categories": [
-        "helol"
-      ],
-      "id": 7
-    },
-    {
-      "title": "",
-      "description": "",
-      "categories": [
-        "pp"
-      ],
-      "id": 8
     }
+    
+    
+    
   ]
 }
