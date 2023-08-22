@@ -13,11 +13,11 @@ const Navbar = () => {
   }
 
   // let {theme} = useContext(ThemeContext)
-  let {theme} = useTheme();
+  let {theme , changeTheme } = useTheme();
   // console.log(theme);
   
   return (
-    <nav className={`border border-b-1 ${theme === 'dark'? 'bg-blue-200' :' bg-yellow-200'}`}>
+    <nav onClick={changeTheme} className={`border border-b-1 ${theme === 'dark'? 'bg-blue-200' :' bg-yellow-200'}`}>
         <ul className="flex justify-between items-center p-3 max-w-6xl mx-auto">
           <li className="flex items-center gap-3">
             <svg
