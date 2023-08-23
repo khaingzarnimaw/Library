@@ -3,6 +3,9 @@ import Meimg from "/src/assets/img/Me.png"
 import { Link, useNavigate } from 'react-router-dom'
 // import { ThemeContext } from '../contexts/ThemeContext'//68
 import useTheme from '../hooks/useTheme' ;
+import ligthIcon from '../assets/light.svg';
+import darkIcon from '../assets/dark.svg';
+
 const Navbar = () => {
   let[search,setSearch] = useState('')
   let navigate = useNavigate();//redirect 
@@ -13,11 +16,11 @@ const Navbar = () => {
   }
 
   // let {theme} = useContext(ThemeContext)
-  let {theme , changeTheme } = useTheme();
+  let {theme, changeTheme} = useTheme();
   // console.log(theme);
   
   return (
-    <nav onClick={changeTheme} className={`border border-b-1 ${theme === 'dark'? 'bg-blue-200' :' bg-yellow-200'}`}>
+    <nav  className={`border border-b-1`}>
         <ul className="flex justify-between items-center p-3 max-w-6xl mx-auto">
           <li className="flex items-center gap-3">
             <svg
@@ -35,7 +38,7 @@ const Navbar = () => {
               />
             </svg>
 
-          <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder=" search books..." className="outline-none" />
+          <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder=" search books..." className="outline-none px-2 py-1 rounded-lg" />
           <button onClick={handleSearch} className="text-white  bg-primary px-3 py-1 rounded-2xl flex items-center  gap-1 ">
              <span className=" md:block ">Search</span>
           </button>
@@ -73,6 +76,13 @@ const Navbar = () => {
             {/* profile image */}
            <div className="w-11 ">
            <img src={Meimg} alt="" className="w-full rounded-full"/>
+           </div>
+           <div className='cursor-pointer'>
+           { theme === 'dark' && <img src={ligthIcon} alt=""  className='w-8' onClick={ () => changeTheme
+            ('light') }/>}
+           { theme === 'light' && <img src={darkIcon} alt=""  className='w-8' onClick={ () => changeTheme
+            ('dark') }/>}
+          
            </div>
           </li>
         </ul>
