@@ -2,21 +2,23 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import shin1img from "../assets/img/shin1.jpeg"
+import useTheme from "../hooks/useTheme";
 const BookDetail = () => {
   //dynamic id//id ကိုလက်ခံဖို့ //useParams ကိုသုံးကြစို့
   let { id } = useParams();
 //   console.log(id);
 
-
 //fetch data
 let { data:book , loading, error} = useFetch(`http://localhost:3000/books/${id}`,"GET")
+
+let {isDark} = useTheme();
 
   return (
    <>
        {error && <p>{error}</p>}
        {loading && <p>loading...</p>}
        {book && (
-         <div className="grid grid-cols-2">
+         <div className={`grid grid-cols-2 h-screen ${isDark ? 'text-white': ''}`}>
           <div>
             <img src={shin1img} alt="" className=" w-[60%]"/>
           </div>

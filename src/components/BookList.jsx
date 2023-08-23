@@ -2,6 +2,7 @@ import React from "react";
 import memory from "../assets/img/memory.jpeg";
 import useFetch from "../hooks/useFetch";
 import { Link ,useLocation } from "react-router-dom";
+import useTheme from "../hooks/useTheme";
 
 const BookList = () => {
 
@@ -17,6 +18,8 @@ let search = params.get('search')
     return <p>{error}</p>;
   }
 
+  let {isDark} = useTheme();
+
   return (
     <div>
         {loading && <p>loading ...</p>}
@@ -26,7 +29,8 @@ let search = params.get('search')
            <div className="grid md:grid-cols-4 grid-cols-2 gap-4 my-3">
           {books.map((b) => (
            <Link to={`/books/${b.id}`}  key={b.id}>
-            <div className="p-4 border border-1 min-h-[420px]">
+            <div className={`p-4 border border-1 min-h-[420px] ${isDark ? 'bg-dcard border-primary text-white' : ''}`}>
+            
               <img src={memory} alt="" className="mx-auto" />
               <div className="text-center space-y-2 mt-3">
                 <h1>{b.title}</h1>

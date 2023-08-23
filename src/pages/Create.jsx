@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";//63
 import { useNavigate } from "react-router-dom";
+import useTheme from "../hooks/useTheme";
 
 
 const Create = () => {
@@ -43,13 +44,17 @@ const Create = () => {
     }
   },[book])
 
+  //useTheme က code ကို copy
+  let { isDark } = useTheme();
+
   return (
-    <form className="w-full max-w-lg mx-auto mt-5" onSubmit={addBook} >
+   <div className="h-screen">
+     <form className="w-full max-w-lg mx-auto mt-5" onSubmit={addBook} >
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full px-3">
           <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-           htmlFor="grid-password"
+            className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            htmlFor="grid-password ${isDark ? 'text-white' : ''}`}
           >
             Book Title
           </label>
@@ -64,8 +69,8 @@ const Create = () => {
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full px-3">
           <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-           htmlFor="grid-password"
+            className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            htmlFor="grid-password ${isDark ? 'text-white' : ''}`}
           >
             Book Description
           </label>
@@ -83,8 +88,8 @@ const Create = () => {
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full px-3">
           <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-           htmlFor="grid-password"
+            className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            htmlFor="grid-password ${isDark ? 'text-white' : ''}`}
           >
             Categories
           </label>
@@ -141,6 +146,7 @@ const Create = () => {
         <span className="hidden md:block">Create Book</span>
       </button>
     </form>
+   </div>
   );
 };
 

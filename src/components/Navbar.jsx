@@ -16,11 +16,11 @@ const Navbar = () => {
   }
 
   // let {theme} = useContext(ThemeContext)
-  let {theme, changeTheme} = useTheme();
+  let {isDark, changeTheme} = useTheme();
   // console.log(theme);
   
   return (
-    <nav  className={`border border-b-1`}>
+    <nav  className={`border border-b-1 ${isDark ? 'bg-dbg border-primary' : 'bg-white'}`}>
         <ul className="flex justify-between items-center p-3 max-w-6xl mx-auto">
           <li className="flex items-center gap-3">
             <svg
@@ -78,9 +78,9 @@ const Navbar = () => {
            <img src={Meimg} alt="" className="w-full rounded-full"/>
            </div>
            <div className='cursor-pointer'>
-           { theme === 'dark' && <img src={ligthIcon} alt=""  className='w-8' onClick={ () => changeTheme
+           { isDark && <img src={ligthIcon} alt=""  className='w-8' onClick={ () => changeTheme
             ('light') }/>}
-           { theme === 'light' && <img src={darkIcon} alt=""  className='w-8' onClick={ () => changeTheme
+           { !isDark && <img src={darkIcon} alt=""  className='w-8' onClick={ () => changeTheme
             ('dark') }/>}
           
            </div>
