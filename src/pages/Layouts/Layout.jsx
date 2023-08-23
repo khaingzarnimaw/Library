@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Outlet ,useLocation} from "react-router";
 import Navbar from "../../components/Navbar";
 import { SwitchTransition, CSSTransition } from "react-transition-group";
@@ -10,6 +10,16 @@ const Layout = () => {
       // console.log(location.pathname);
 
  let {isDark} = useTheme();
+
+ //dark light mode ပြောင်းတဲ့အခါ
+ useEffect(()=> {
+   let body = document.body;
+   if(isDark){
+      body.classList.add ('bg-dbg')
+   }else {
+      body.classList.remove('bg-dbg')
+   }
+ },[isDark]);
 
   return (
     <div  className={isDark ? 'bg-dbg' : 'bg-white'}>
