@@ -1,8 +1,12 @@
 import React from "react";
 import memory from "../assets/img/memory.jpeg";
-import useFetch from "../hooks/useFetch";
+// import useFetch from "../hooks/useFetch";
 import { Link ,useLocation } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
+import {db} from '../firebase'
+import { collection,getDocs } from "firebase/firestore";
+
+import { useEffect,useState } from "react";
 
 const BookList = () => {
 
@@ -11,7 +15,32 @@ let params = new URLSearchParams(location.search);
 // console.log(params.get('search'));
 let search = params.get('search')
 //  let search = 'React';
- let { data : books , loading, error } = useFetch(`http://localhost:3000/books${search ? `?q=${search}`:''}`,"GET");
+//  let { data : books , loading, error } = useFetch(`http://localhost:3000/books${search ? `?q=${search}`:''}`,"GET");
+
+//for firebase
+let[error,setError] = useState('');
+let[books,setBooks] = useState([]);
+let[loading,setLoading] = useState(false);
+
+//for firebase
+useEffect(function(){
+   let ref = collection(db,'books');
+   getDocs(ref).then(docs => {
+    // console.log(docs)
+    let books = [];
+    docs.forEach(doc =>{
+      console.log(doc.id);
+      // console.log(doc.data())
+      let book = {id : doc.id ,...doc.data()}
+      // console.log(book);
+      books.push(book)
+    } )
+    setBooks(books);
+   }
+   ) 
+},[])
+
+
 
 
   if (error) {
