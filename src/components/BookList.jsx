@@ -4,7 +4,7 @@ import memory from "../assets/img/memory.jpeg";
 import { Link ,useLocation } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
 import {db} from '../firebase'
-import { collection,getDocs } from "firebase/firestore";
+import { collection,getDocs, orderBy, query } from "firebase/firestore";
 
 import { useEffect,useState } from "react";
 
@@ -25,8 +25,9 @@ let[loading,setLoading] = useState(false);
 //for firebase
 useEffect(function(){
   setLoading(true)
-   let ref = collection(db,'books');
-   getDocs(ref).then(docs => {
+   let ref = collection(db,'books');//fire base
+   let q = query(ref, orderBy('date','desc')) 
+   getDocs(q).then(docs => {
      if(docs.empty){
       setError('no documents found');
       setLoading(false)

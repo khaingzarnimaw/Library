@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";//63
 import { useNavigate } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebase";
 
 
 const Create = () => {
@@ -10,7 +12,7 @@ const Create = () => {
   let[newCategory,setNewCategory] = useState('')
   let[categories,setCategories] = useState([])
 
-  let {setPostData, data: book } = useFetch('http://localhost:3000/books',"POST")//63
+  // let {setPostData, data: book } = useFetch('http://localhost:3000/books',"POST")//63
 
  let navigate = useNavigate();
   // +button 
@@ -32,17 +34,23 @@ const Create = () => {
     let data = {
       title,
       description,
-      categories
+      categories,
+      date : serverTimestamp()
     }
-   setPostData(data);//console.log(data) 
+  //  setPostData(data);//console.log(data) //data ပစ်ထဲ့ js server နဲ့
+
+  //firebase store
+  let ref = collection(db,'books');
+  addDoc(ref,data)
+  navigate('/');
   }
   
-  useEffect (()=>{
-    // console.log(book)//စာအုပ် data သာ တကယ်ရှိရင် navigate လုပ်ပါ
-    if(book){
-      navigate('/')
-    }
-  },[book])
+  // useEffect (()=>{
+  //   // console.log(book)//စာအုပ် data သာ တကယ်ရှိရင် navigate လုပ်ပါ
+  //   if(book){
+  //     navigate('/')
+  //   }
+  // },[book])
 
   //useTheme က code ကို copy
   let { isDark } = useTheme();
