@@ -24,20 +24,24 @@ let[loading,setLoading] = useState(false);
 
 //for firebase
 useEffect(function(){
+  setLoading(true)
    let ref = collection(db,'books');
    getDocs(ref).then(docs => {
-    // console.log(docs)
-    let books = [];
-    docs.forEach(doc =>{
-      console.log(doc.id);
-      // console.log(doc.data())
-      let book = {id : doc.id ,...doc.data()}
-      // console.log(book);
-      books.push(book)
-    } )
-    setBooks(books);
-   }
-   ) 
+     if(docs.empty){
+      setError('no documents found');
+      setLoading(false)
+     }else {
+
+      let books = [];
+      docs.forEach(doc =>{
+        let book = {id : doc.id ,...doc.data()} 
+        books.push(book)
+      } )
+      setBooks(books);
+      setLoading(false)
+      setError('');
+     }     
+     })     
 },[])
 
 

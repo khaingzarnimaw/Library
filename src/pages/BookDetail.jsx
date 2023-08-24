@@ -1,17 +1,40 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import { useParams } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
+// import useFetch from "../hooks/useFetch";
 import shin1img from "../assets/img/shin1.jpeg"
 import useTheme from "../hooks/useTheme";
+import {doc, getDoc} from "firebase/firestore"
+import {db}from "../firebase"
+
 const BookDetail = () => {
   //dynamic id//id ကိုလက်ခံဖို့ //useParams ကိုသုံးကြစို့
   let { id } = useParams();
 //   console.log(id);
 
 //fetch data
-let { data:book , loading, error} = useFetch(`http://localhost:3000/books/${id}`,"GET")
-
+// let { data:book , loading, error} = useFetch(`http://localhost:3000/books/${id}`,"GET")
+let[error,setError] = useState('');
+let[book,setBook] = useState(null);
+let[loading,setLoading] = useState(false);
 let {isDark} = useTheme();
+
+useEffect(()=>{
+  setLoading(true)
+   let ref = doc(db , 'books', id)
+   getDoc(ref).then(doc =>{
+    // console.log(doc.exists());
+    if (doc.exists()){
+      let book = {id : doc.id , ...doc.data()}
+      setBook(book);
+      setLoading(false)
+      setError('');
+    } else {
+      setError('no document found')
+      setLoading(false)
+    }
+    
+   })
+},[id])
 
   return (
    <>
