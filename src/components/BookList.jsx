@@ -4,9 +4,10 @@ import memory from "../assets/img/memory.jpeg";
 import { Link ,useLocation } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
 import {db} from '../firebase'
-import { collection,getDocs, orderBy, query } from "firebase/firestore";
+import { collection,deleteDoc,doc,getDocs, orderBy, query } from "firebase/firestore";
 
 import { useEffect,useState } from "react";
+import trash from "../assets/trash.svg"
 
 const BookList = () => {
 
@@ -22,6 +23,18 @@ let[error,setError] = useState('');
 let[books,setBooks] = useState([]);
 let[loading,setLoading] = useState(false);
 
+
+let delecteBook = (e,id) => {
+  e.preventDefault()
+  // console.log('hello world');
+  // console.log( 'book id'+id );
+  
+  //delect fire store doc
+  let ref = doc(db,'books',id)
+   deleteDoc(ref);//backend book delect
+  setBooks(prev => prev.filter(b => b.id !== id))//frontend book delect(ui)//update 
+}
+
 //for firebase
 useEffect(function(){
   setLoading(true)
@@ -31,7 +44,7 @@ useEffect(function(){
      if(docs.empty){
       setError('no documents found');
       setLoading(false)
-     }else {
+     } else {
 
       let books = [];
       docs.forEach(doc =>{
@@ -70,12 +83,18 @@ useEffect(function(){
                 <h1>{b.title}</h1>
                 <p>{b.description}</p>
                 {/* genres */}
-                <div className="flex flex-wrap ">
+
+                <div className="flex flex-wrap justify-between items-center">
+                  <div>
                   {b.categories.map((c) => (
                     <span　key={c} className="mx-1 my-1 text-white rounded-full px-2 py-1 text-sm bg-blue-500">
                       {c}
                     </span>
                   ))}
+                  </div>
+                  <div onClick={(e) => delecteBook(e,b.id)}>
+                       <img src={trash} alt="" />
+                  </div>
                 </div>
               </div>
             </div>
