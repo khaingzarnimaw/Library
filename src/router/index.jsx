@@ -4,6 +4,8 @@ import Layout from "../pages/Layouts/Layout.jsx";
 import Create from "../pages/Create.jsx";
 import Search from "../pages/Search.jsx";
 import BookDetail from "../pages/BookDetail.jsx";
+import Register from "../pages/Register.jsx";
+import Login from "../pages/login.jsx";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +31,14 @@ const router = createBrowserRouter([
       {
         path:"/edit/:id",
         element: <Create/>
+      },
+      {
+        path:"/register",
+        element: <Register/>
+      },
+      {
+        path:"/login",
+        element: <Login/>
       }
 
     ],
