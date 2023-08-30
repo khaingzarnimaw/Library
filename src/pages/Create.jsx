@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";//63
 import { useNavigate, useParams } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
-import { addDoc, collection, doc, getDoc, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 
@@ -14,7 +14,7 @@ const Create = () => {
   let[categories,setCategories] = useState([])
   let [isEdit,setIsEdit] = useState(false)
 
- 
+ //fire store ကနေ 
   useEffect(()=>{
      //edit form
     if(id){
@@ -31,13 +31,14 @@ const Create = () => {
          } 
     })
    //create form
-    }else{
+    } 
+    else {
       setIsEdit(false);
-      setTitle('')
-      setDescription('')
-      setCategories([])
+      setTitle('');
+      setDescription('');
+      setCategories([]);
     }
-  })
+  },[])
 
   // let {setPostData, data: book } = useFetch('http://localhost:3000/books',"POST")//63
 
@@ -56,7 +57,7 @@ const Create = () => {
   }
   //onSubmit with addbook//create button click
 
-  let addBook = (e)=>{
+  let submitForm = async (e)=>{
     e.preventDefault();
     let data = {
       title,
@@ -65,10 +66,14 @@ const Create = () => {
       date : serverTimestamp()
     }
   //  setPostData(data);//console.log(data) //data ပစ်ထဲ့ js server နဲ့
-
-  //firebase store
-  let ref = collection(db,'books');
-  addDoc(ref,data)
+  if(isEdit){
+      let ref = doc(db,'books',id)
+      await updateDoc(ref, data)
+  }else{
+    let ref = collection(db,'books');
+    await addDoc(ref,data)
+  }
+  
   navigate('/');
   }
   
@@ -84,7 +89,7 @@ const Create = () => {
 
   return (
    <div className="h-screen">
-     <form className="w-full max-w-lg mx-auto mt-5" onSubmit={addBook} >
+     <form className="w-full max-w-lg mx-auto mt-5" onSubmit={submitForm} >
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full px-3">
           <label
