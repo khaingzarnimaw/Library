@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 // import useFetch from "../hooks/useFetch";
 import shin1img from "../assets/img/shin1.jpeg"
 import useTheme from "../hooks/useTheme";
-import {doc, getDoc} from "firebase/firestore"
+import {doc, getDoc, onSnapshot} from "firebase/firestore"
 import {db}from "../firebase"
 
 const BookDetail = () => {
@@ -21,7 +21,8 @@ let {isDark} = useTheme();
 useEffect(()=>{
   setLoading(true)
    let ref = doc(db , 'books', id)
-   getDoc(ref).then(doc =>{
+  //  getDoc(ref).then()
+  onSnapshot(ref,doc =>{
     // console.log(doc.exists());
     if (doc.exists()){
       let book = {id : doc.id , ...doc.data()}

@@ -4,7 +4,7 @@ import memory from "../assets/img/memory.jpeg";
 import { Link ,useLocation } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
 import {db} from '../firebase'
-import { collection,deleteDoc,doc,getDocs, orderBy, query } from "firebase/firestore";
+import { collection,deleteDoc,doc,getDocs, onSnapshot, orderBy, query } from "firebase/firestore";
 
 import { useEffect,useState } from "react";
 import trash from "../assets/trash.svg"
@@ -33,7 +33,7 @@ let delecteBook = async(e,id) => {
   //delect fire store doc
   let ref = doc(db,'books',id)
   await deleteDoc(ref);//backend book delect
-  setBooks(prev => prev.filter(b => b.id !== id))//frontend book delect(ui)//update 
+  // setBooks(prev => prev.filter(b => b.id !== id))//frontend book delect(ui)//update 
 }
 
 //for firebase
@@ -41,22 +41,22 @@ useEffect(function(){
   setLoading(true)
    let ref = collection(db,'books');//fire base
    let q = query(ref, orderBy('date','desc')) 
-   getDocs(q).then(docs => {
-     if(docs.empty){
-      setError('no documents found');
-      setLoading(false)
-     } else {
+   onSnapshot(q,docs => {
+    if(docs.empty){
+     setError('no documents found');
+     setLoading(false)
+    } else {
 
-      let books = [];
-      docs.forEach(doc =>{
-        let book = {id : doc.id ,...doc.data()} 
-        books.push(book)
-      } )
-      setBooks(books);
-      setLoading(false)
-      setError('');
-     }     
-     })     
+     let books = [];
+     docs.forEach(doc =>{
+       let book = {id : doc.id ,...doc.data()} 
+       books.push(book)
+     } )
+     setBooks(books);
+     setLoading(false)
+     setError('');
+    }     
+    })     
 },[])
 
 
