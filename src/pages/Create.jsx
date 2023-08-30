@@ -1,16 +1,43 @@
 import React, { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";//63
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 
 
 const Create = () => {
+  let{id} = useParams();//edit form
   let[title,setTitle] = useState('')
   let[description,setDescription] = useState('')
   let[newCategory,setNewCategory] = useState('')
   let[categories,setCategories] = useState([])
+  let [isEdit,setIsEdit] = useState(false)
+
+ 
+  useEffect(()=>{
+     //edit form
+    if(id){
+      setIsEdit(true);
+      //get a book by its id
+      //bookDetail copy
+      let ref = doc(db , 'books', id)
+       getDoc(ref).then(doc =>{
+          if (doc.exists()){
+            let{ title,description,categories } = doc.data()
+           setTitle(title)  //  console.log(title);
+           setDescription(description) //console.log(description);
+           setCategories(categories) //console.log(categories);
+         } 
+    })
+   //create form
+    }else{
+      setIsEdit(false);
+      setTitle('')
+      setDescription('')
+      setCategories([])
+    }
+  })
 
   // let {setPostData, data: book } = useFetch('http://localhost:3000/books',"POST")//63
 
@@ -136,6 +163,8 @@ const Create = () => {
                   ))}
                 </div>
       </div>
+
+      {/* create book */}
       <button className="text-white bg-primary px-3 py-2 rounded-2xl flex  justify-center items-center gap-1 w-full">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -151,7 +180,7 @@ const Create = () => {
             d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
-        <span className="hidden md:block">Create Book</span>
+        <span className="hidden md:block">{ isEdit ?'Update Book' : 'Create Book'}</span>
       </button>
     </form>
    </div>

@@ -12,7 +12,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/create",
-        element: <Create />,
+        element: <Create/>,
       },
       {
         path: "/search",
@@ -25,7 +25,12 @@ const router = createBrowserRouter([
       {
         path: "/Books/:id",
         element: <BookDetail/>,
+      },
+      {
+        path:"/edit/:id",
+        element: <Create/>
       }
+
     ],
   },
 ]);

@@ -8,6 +8,7 @@ import { collection,deleteDoc,doc,getDocs, orderBy, query } from "firebase/fires
 
 import { useEffect,useState } from "react";
 import trash from "../assets/trash.svg"
+import pencil from "../assets/pencil.svg"
 
 const BookList = () => {
 
@@ -24,14 +25,14 @@ let[books,setBooks] = useState([]);
 let[loading,setLoading] = useState(false);
 
 
-let delecteBook = (e,id) => {
+let delecteBook = async(e,id) => {
   e.preventDefault()
   // console.log('hello world');
   // console.log( 'book id'+id );
-  
+
   //delect fire store doc
   let ref = doc(db,'books',id)
-   deleteDoc(ref);//backend book delect
+  await deleteDoc(ref);//backend book delect
   setBooks(prev => prev.filter(b => b.id !== id))//frontend book delect(ui)//update 
 }
 
@@ -92,8 +93,12 @@ useEffect(function(){
                     </span>
                   ))}
                   </div>
-                  <div onClick={(e) => delecteBook(e,b.id)}>
-                       <img src={trash} alt="" />
+                  <div className="flex space-x-5 items-center" >
+                      
+                      <Link to={`/edit/${b.id}`}>
+                      <img src={pencil} alt="" />
+                      </Link>
+                       <img src={trash} alt="" onClick={(e) => delecteBook(e,b.id)} />
                   </div>
                 </div>
               </div>

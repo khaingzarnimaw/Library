@@ -31,8 +31,7 @@ useEffect(()=>{
     } else {
       setError('no document found')
       setLoading(false)
-    }
-    
+    } 
    })
 },[id])
 
