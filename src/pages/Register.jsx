@@ -15,7 +15,8 @@ let navigate = useNavigate()
    console.log(user);
 
    //redirect
-  //  navigate('/')
+   navigate('/')
+
  }
 
   return (
