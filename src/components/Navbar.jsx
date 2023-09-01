@@ -1,4 +1,4 @@
-import React, {  useState } from 'react'
+import React, {  useContext, useState } from 'react'
 import Meimg from "/src/assets/img/Me.png"
 import { Link, useNavigate } from 'react-router-dom'
 // import { ThemeContext } from '../contexts/ThemeContext'//68
@@ -6,10 +6,13 @@ import useTheme from '../hooks/useTheme' ;
 import ligthIcon from '../assets/light.svg';
 import darkIcon from '../assets/dark.svg';
 import useSignout from '../hooks/useSignout';
+import {AuthContext} from '../contexts/AuthContext';
 
 const Navbar = () => {
   let[search,setSearch] = useState('')
   let navigate = useNavigate();//redirect 
+  let {user} = useContext(AuthContext);
+  console.log(user);
 
   let handleSearch = (e) =>{
     //  console.log(search);//search မှာရေးကြည့်တခုခု
@@ -91,11 +94,23 @@ const Navbar = () => {
            { !isDark && <img src={darkIcon} alt=""  className='w-8' onClick={ () => changeTheme
             ('dark') }/>}
             </div>
-            <div>
-              <button onClick={signOutUser} className=' bg-red-500 text-white rounded-lg px-2 py-2 text-sm'>
-                 Logout
-              </button>
-            </div>
+            <div className=' space-x-3'>
+                {!user && 
+                     <>
+                        <Link to={`/login`} className=' border-2 border-primary rounded-lg px-2 py-2 text-sm'>
+                           Login
+                         </Link>
+                        <Link to={`/register`} className=' bg-primary text-white rounded-lg px-2 py-2 text-sm'>
+                           Register
+                        </Link>
+                     </>
+                }
+                { !!user && <button onClick={signOutUser} className=' bg-red-500 text-white rounded-lg px-2 py-2 text-sm'>
+                                   Logout
+                             </button>
+               }
+
+           </div>
           </li>
         </ul>
       </nav>
