@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import useTheme from '../hooks/useTheme' ;
 import ligthIcon from '../assets/light.svg';
 import darkIcon from '../assets/dark.svg';
+import useSignout from '../hooks/useSignout';
 
 const Navbar = () => {
   let[search,setSearch] = useState('')
@@ -18,6 +19,13 @@ const Navbar = () => {
   // let {theme} = useContext(ThemeContext)
   let {isDark, changeTheme} = useTheme();
   // console.log(theme);
+
+  let {logout} = useSignout();
+
+  let signOutUser = async () => {
+      await logout()
+       navigate('/login')
+  }
   
   return (
     <nav  className={`border border-b-1 ${isDark ? 'bg-dbg border-primary' : 'bg-white'}`}>
@@ -82,8 +90,12 @@ const Navbar = () => {
             ('light') }/>}
            { !isDark && <img src={darkIcon} alt=""  className='w-8' onClick={ () => changeTheme
             ('dark') }/>}
-          
-           </div>
+            </div>
+            <div>
+              <button onClick={signOutUser} className=' bg-red-500 text-white rounded-lg px-2 py-2 text-sm'>
+                 Logout
+              </button>
+            </div>
           </li>
         </ul>
       </nav>
