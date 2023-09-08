@@ -12,7 +12,7 @@ const Navbar = () => {
   let[search,setSearch] = useState('')
   let navigate = useNavigate();//redirect 
   let {user} = useContext(AuthContext);
-  console.log(user);
+  // console.log(user);
 
   let handleSearch = (e) =>{
     //  console.log(search);//search မှာရေးကြည့်တခုခု
