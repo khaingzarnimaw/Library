@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "../pages/Home.jsx"; //need for router
 import Layout from "../pages/Layouts/Layout.jsx";
 import Create from "../pages/Create.jsx";
@@ -10,6 +10,11 @@ import React, { useContext } from 'react'
 import { AuthContext } from "../contexts/AuthContext.jsx";
 
 export default function index() {
+
+  let {authReady , user } = useContext(AuthContext)
+
+  const isAuthenticated = Boolean(user) ;
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -17,38 +22,36 @@ export default function index() {
       children: [
         {
           path: "/create",
-          element: <Create/>,
+          element:isAuthenticated ? <Create/> : <Navigate to="/login"/>
         },
         {
           path: "/search",
-          element: <Search />,
+          element:isAuthenticated ?  <Search /> : <Navigate to="/login"/>
         },
         {
           path: "",
-          element: <Home />,
+          element: isAuthenticated ? <Home /> : <Navigate to="/login"/>
         },
         {
           path: "/Books/:id",
-          element: <BookDetail/>,
+          element:isAuthenticated ? <BookDetail/> :  <Navigate to="/login"/> 
         },
         {
           path:"/edit/:id",
-          element: <Create/>
+          element: isAuthenticated ? <Create/> :  <Navigate to="/login"/> 
         },
         {
           path:"/register",
-          element: <Register/>
+          element: !isAuthenticated ?<Register/> :<Navigate to="/"/>
         },
         {
           path:"/login",
-          element: <Login/>
+          element: !isAuthenticated ? <Login/> : <Navigate to="/"/>
         }
   
       ],
     },
   ]);
-
-  let {authReady} = useContext(AuthContext)
 
   return (
      authReady &&  <RouterProvider router={router}/>
