@@ -11,10 +11,12 @@ let navigate = useNavigate()
 let {error,loading,signIn} = useSignin()
 
 let login = async(e) => {
-  e.preventDefault()
-let user = await  signIn(email,password)
-console.log(user);
-navigate('/')//redirect
+    e.preventDefault()
+    let user = await  signIn(email,password)
+         // console.log(user);
+    if(user) {
+         navigate('/')//redirect
+    }
 }
 
 

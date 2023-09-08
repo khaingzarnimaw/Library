@@ -12,11 +12,12 @@ let navigate = useNavigate()
  let registerUser = async (e) => {
     e.preventDefault();
    let user = await signUp(email,password)//sign functionအချိန်အနဲငယ်ကြာ
-   console.log(user);
+    // console.log(user);
 
    //redirect
-   navigate('/')
-
+    if (user){
+      navigate('/')
+   }
  }
 
   return (
