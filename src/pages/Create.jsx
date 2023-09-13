@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";//63
 import { useNavigate, useParams } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
 import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import useFirestore from "../hooks/useFirestore";
+import { AuthContext } from "../contexts/AuthContext";
 
 
 const Create = () => {
@@ -60,13 +61,16 @@ const Create = () => {
   }
   //onSubmit with addbook//create button click
 
+  let {user} = useContext(AuthContext)
   let submitForm = async (e)=>{
     e.preventDefault();
     let data = {
       title,
       description,
       categories,
+      uid :user.uid
       // date : serverTimestamp()
+
     }
   //  setPostData(data);//console.log(data) //data ပစ်ထဲ့ js server နဲ့
   if(isEdit){

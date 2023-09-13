@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import memory from "../assets/img/memory.jpeg";
 // import useFetch from "../hooks/useFetch";
 import { Link ,useLocation } from "react-router-dom";
@@ -10,6 +10,7 @@ import { useEffect,useState } from "react";
 import trash from "../assets/trash.svg"
 import pencil from "../assets/pencil.svg"
 import useFirestore from "../hooks/useFirestore";
+import { AuthContext } from "../contexts/AuthContext";
 
 const BookList = () => {
 
@@ -21,7 +22,8 @@ let search = params.get('search')
 //  let { data : books , loading, error } = useFetch(`http://localhost:3000/books${search ? `?q=${search}`:''}`,"GET");
 
 let {getCollection , deleteDocument} = useFirestore()
-let {error, data : books , loading} = getCollection('books')
+let {user} = useContext(AuthContext)
+let {error, data : books , loading} = getCollection('books',['uid','==',user.uid])
 
 let deleteBook = async(e,id) => {
   e.preventDefault()
