@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
 import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import useFirestore from "../hooks/useFirestore";
 
 
 const Create = () => {
@@ -13,6 +14,8 @@ const Create = () => {
   let[newCategory,setNewCategory] = useState('')
   let[categories,setCategories] = useState([])
   let [isEdit,setIsEdit] = useState(false)
+
+ let {updateDocument , addCollection}=  useFirestore();
 
  //fire store ကနေ 
   useEffect(()=>{
@@ -63,15 +66,13 @@ const Create = () => {
       title,
       description,
       categories,
-      date : serverTimestamp()
+      // date : serverTimestamp()
     }
   //  setPostData(data);//console.log(data) //data ပစ်ထဲ့ js server နဲ့
   if(isEdit){
-      let ref = doc(db,'books',id)
-      await updateDoc(ref, data)
+    await  updateDocument('books' , id , data)
   }else{
-    let ref = collection(db,'books');
-    await addDoc(ref,data)
+    await  addCollection('books' , data)
   }
   
   navigate('/');

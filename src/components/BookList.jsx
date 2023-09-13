@@ -9,6 +9,7 @@ import { collection,deleteDoc,doc,getDocs, onSnapshot, orderBy, query } from "fi
 import { useEffect,useState } from "react";
 import trash from "../assets/trash.svg"
 import pencil from "../assets/pencil.svg"
+import useFirestore from "../hooks/useFirestore";
 
 const BookList = () => {
 
@@ -19,48 +20,20 @@ let search = params.get('search')
 //  let search = 'React';
 //  let { data : books , loading, error } = useFetch(`http://localhost:3000/books${search ? `?q=${search}`:''}`,"GET");
 
-//for firebase
-let[error,setError] = useState('');
-let[books,setBooks] = useState([]);
-let[loading,setLoading] = useState(false);
+let {getCollection , deleteDocument} = useFirestore()
+let {error, data : books , loading} = getCollection('books')
 
-
-let delecteBook = async(e,id) => {
+let deleteBook = async(e,id) => {
   e.preventDefault()
+  await deleteDocument('books',id)
   // console.log('hello world');
   // console.log( 'book id'+id );
 
   //delect fire store doc
-  let ref = doc(db,'books',id)
-  await deleteDoc(ref);//backend book delect
+  // let ref = doc(db,'books',id)
+  // await deleteDoc(ref);//backend book delect
   // setBooks(prev => prev.filter(b => b.id !== id))//frontend book delect(ui)//update 
 }
-
-//for firebase
-useEffect(function(){
-  setLoading(true)
-   let ref = collection(db,'books');//fire base
-   let q = query(ref, orderBy('date','desc')) 
-   onSnapshot(q,docs => {
-    if(docs.empty){
-     setError('no documents found');
-     setLoading(false)
-    } else {
-
-     let books = [];
-     docs.forEach(doc =>{
-       let book = {id : doc.id ,...doc.data()} 
-       books.push(book)
-     } )
-     setBooks(books);
-     setLoading(false)
-     setError('');
-    }     
-    })     
-},[])
-
-
-
 
   if (error) {
     return <p>{error}</p>;
@@ -98,7 +71,7 @@ useEffect(function(){
                       <Link to={`/edit/${b.id}`}>
                       <img src={pencil} alt="" />
                       </Link>
-                       <img src={trash} alt="" onClick={(e) => delecteBook(e,b.id)} />
+                       <img src={trash} alt="" onClick={(e) => deleteBook(e,b.id)} />
                   </div>
                 </div>
               </div>

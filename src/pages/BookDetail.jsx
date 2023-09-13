@@ -5,6 +5,7 @@ import shin1img from "../assets/img/shin1.jpeg"
 import useTheme from "../hooks/useTheme";
 import {doc, getDoc, onSnapshot} from "firebase/firestore"
 import {db}from "../firebase"
+import useFirestore from "../hooks/useFirestore";
 
 const BookDetail = () => {
   //dynamic id//id ကိုလက်ခံဖို့ //useParams ကိုသုံးကြစို့
@@ -13,28 +14,11 @@ const BookDetail = () => {
 
 //fetch data
 // let { data:book , loading, error} = useFetch(`http://localhost:3000/books/${id}`,"GET")
-let[error,setError] = useState('');
-let[book,setBook] = useState(null);
-let[loading,setLoading] = useState(false);
-let {isDark} = useTheme();
 
-useEffect(()=>{
-  setLoading(true)
-   let ref = doc(db , 'books', id)
-  //  getDoc(ref).then()
-  onSnapshot(ref,doc =>{
-    // console.log(doc.exists());
-    if (doc.exists()){
-      let book = {id : doc.id , ...doc.data()}
-      setBook(book);
-      setLoading(false)
-      setError('');
-    } else {
-      setError('no document found')
-      setLoading(false)
-    } 
-   })
-},[id])
+let {getDocument} = useFirestore();
+let {error,loading, data : book } = getDocument('books',id)
+
+let {isDark} = useTheme();
 
   return (
    <>
