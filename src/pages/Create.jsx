@@ -15,6 +15,8 @@ const Create = () => {
   let[newCategory,setNewCategory] = useState('')
   let[categories,setCategories] = useState([])
   let [isEdit,setIsEdit] = useState(false)
+  let[file,setFile] = useState(null);
+  let[preview,setPreview] = useState('')
 
  let {updateDocument , addCollection}=  useFirestore();
 
@@ -62,6 +64,25 @@ const Create = () => {
   //onSubmit with addbook//create button click
 
   let {user} = useContext(AuthContext)
+
+  let handlePhotoChange = (e) =>{
+    setFile(e.target.files[0]);
+  }
+  let handlePreviewImage =(file)=>{
+      // console.log('file preview handle here');
+      let reader = new FileReader;
+      reader.readAsDataURL(file);
+      reader.onload=()=>{
+        setPreview(reader.result);
+      }
+  }
+  useEffect(()=>{
+    if(file){
+      // console.log('preview handle');
+      handlePreviewImage(file)
+    }
+  },[file])
+
   let submitForm = async (e)=>{
     e.preventDefault();
     let data = {
@@ -173,6 +194,18 @@ const Create = () => {
                   ))}
                 </div>
       </div>
+
+    {/* cover photo */}
+      <div className="w-full px-3 my-3 ">
+          <label
+            className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            htmlFor="grid-password ${isDark ? 'text-white' : ''}`}
+          >
+            Book Title
+          </label>
+          <input type = "file" name="" id="" onChange={handlePhotoChange} />
+         {!!preview && <img src={preview} alt=""  className="my-3" width={300} height={100}/>}
+        </div>
 
       {/* create book */}
       <button className="text-white bg-primary px-3 py-2 rounded-2xl flex  justify-center items-center gap-1 w-full">

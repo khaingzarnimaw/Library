@@ -9,7 +9,7 @@ import useSignout from '../hooks/useSignout';
 import {AuthContext} from '../contexts/AuthContext';
 
 const Navbar = () => {
-  let[search,setSearch] = useState('')
+  let[search , setSearch] = useState('')
   let navigate = useNavigate();//redirect 
   let {user} = useContext(AuthContext);
   // console.log(user);
