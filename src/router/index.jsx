@@ -5,7 +5,7 @@ import Create from "../pages/Create.jsx";
 import Search from "../pages/Search.jsx";
 import BookDetail from "../pages/BookDetail.jsx";
 import Register from "../pages/Register.jsx";
-import Login from "../pages/login.jsx";
+import Login from "../pages/Login.jsx";
 import React, { useContext } from 'react'
 import { AuthContext } from "../contexts/AuthContext.jsx";
 
