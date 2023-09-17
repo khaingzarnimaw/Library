@@ -11,6 +11,7 @@ import { AuthContext } from "../contexts/AuthContext";
 const Create = () => {
   let{id} = useParams();//edit form
   let[title,setTitle] = useState('')
+  let[link,setLink] = useState('');//aps
   let[description,setDescription] = useState('')
   let[newCategory,setNewCategory] = useState('')
   let[categories,setCategories] = useState([])
@@ -87,6 +88,7 @@ const Create = () => {
     e.preventDefault();
     let data = {
       title,
+      link,
       description,
       categories,
       uid :user.uid
@@ -150,6 +152,13 @@ const Create = () => {
             Make it as long and as crazy as you'd like
           </p>
         </div>
+      </div>
+      {/* aps */}
+      <div>
+        <input type="text" value={link} onChange={ e => setLink(e.target.value) } 
+           className="border border-gray-200"
+        />
+
       </div>
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full px-3">

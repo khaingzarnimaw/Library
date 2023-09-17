@@ -19,6 +19,17 @@ let {getDocument} = useFirestore();
 let {error,loading, data : book } = getDocument('books',id)
 
 let {isDark} = useTheme();
+  
+// aps
+  const hanldeDownload = () => {
+      const downloadLink = document.createElement('a');
+      downloadLink.target = "_black";
+      downloadLink.href = book.link
+      downloadLink.download = 'resume_aps.pdf';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+  }
 
   return (
    <>
@@ -27,7 +38,9 @@ let {isDark} = useTheme();
        {book && (
          <div className={`grid grid-cols-2 h-screen ${isDark ? 'text-white': ''}`}>
           <div>
-            <img src={shin1img} alt="" className=" w-[60%]"/>
+            <img src={shin1img}
+            onClick={hanldeDownload}
+            alt="" className=" w-[60%]"/>
           </div>
           <div className=" space-y-4">
             <h1 className="text-3xl font-bold">{book.title}</h1>
