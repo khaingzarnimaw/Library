@@ -3,9 +3,10 @@ import useFetch from "../hooks/useFetch";//63
 import { useNavigate, useParams } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
 import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { db, storage } from "../firebase";
 import useFirestore from "../hooks/useFirestore";
 import { AuthContext } from "../contexts/AuthContext";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 
 const Create = () => {
@@ -20,6 +21,8 @@ const Create = () => {
   let[preview,setPreview] = useState('')
 
  let {updateDocument , addCollection}=  useFirestore();
+
+ let {user} = useContext(AuthContext)
 
  //fire store ကနေ 
   useEffect(()=>{
@@ -64,7 +67,7 @@ const Create = () => {
   }
   //onSubmit with addbook//create button click
 
-  let {user} = useContext(AuthContext)
+ 
 
   let handlePhotoChange = (e) =>{
     setFile(e.target.files[0]);
@@ -84,14 +87,26 @@ const Create = () => {
     }
   },[file])
 
+  let uploadToFirebase = async (file) => {
+    let uniqueFileName = Date.now().toString() +'_' + file.name
+    let path= "/covers/" + user.uid+"/" + uniqueFileName;
+    let storageRef= ref(storage,path)
+    await uploadBytes(storageRef,file)
+    //  let url = await getDownloadURL(storageRef)
+    return await getDownloadURL(storageRef);//url ကို return ပြန်ပေးထားတာပါ
+  }
+
   let submitForm = async (e)=>{
     e.preventDefault();
+     let url = await uploadToFirebase(file);
+    console.log(url);
     let data = {
       title,
       link,
       description,
       categories,
-      uid :user.uid
+      uid :user.uid,
+      cover : url
       // date : serverTimestamp()
 
     }

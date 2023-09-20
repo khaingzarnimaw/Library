@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import memory from "../assets/img/memory.jpeg";
+// import memory from "../assets/img/memory.jpeg";
 // import useFetch from "../hooks/useFetch";
 import { Link ,useLocation } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
@@ -54,7 +54,7 @@ let deleteBook = async(e,id) => {
            <Link to={`/books/${b.id}`}  key={b.id}>
             <div className={`p-4 border border-1 min-h-[420px] ${isDark ? 'bg-dcard border-primary text-white' : ''}`}>
             
-              <img src={memory} alt="" className="mx-auto" />
+              <img src={b.cover} alt="" className="mx-auto" />
               <div className="text-center space-y-2 mt-3">
                 <h1>{b.title}</h1>
                 <p>{b.description}</p>
